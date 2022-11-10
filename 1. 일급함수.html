@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 일급 함수</title>
+</head>
+<body>
+<script>
+    /**
+     * add10 이라는 변수에 함수를 값으로 담아 다른 함수(console.log)에 인자로 전달하면 해당 함수를 출력 할 수 있다.
+     */
+    const add10 = a => a + 10;
+
+    console.log(add10);
+
+    /**
+     * 함수를 평가하여 나온 값을 다른 함수의 인자로 전달하여 출력할 수 있다.
+     */
+    console.log(add10(5));
+
+    /**
+     * 함수의 결과값으로써 함수를 사용할 수 있다.
+     */
+    const func1 = () => () => 1;
+    console.log(func1());
+
+    /**
+     * 함수는 다른 변수의 값으로 사용이 가능하며, 결과값 또한 함수일 수 있다.
+     */
+    const func2 = func1();
+
+    console.log(func2);
+
+    /**
+     * 함수의 결과값으로써 함수를 사용할 수 있다. (2)
+     */
+    console.log(func2());
+
+    /**
+     * 함수를 인자로 전달하여 사용할 수 있다.
+     */
+    const add5 = a => a + 5;
+    const log = a => console.log(a);
+
+    log(add5(5));
+
+    /**
+     * 함수를 인자로 전달하여 사용할 수 있다. (2)
+     */
+    const add = (a, b) => a + b;
+    const sub = (a, b) => a - b;
+
+    const log2 = (a, b, func) => console.log(func(a, b));
+
+    log2(10, 5, add);
+    log2(10, 5, sub);
+</script>
+</body>
+</html>
