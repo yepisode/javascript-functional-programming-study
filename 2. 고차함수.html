@@ -51,6 +51,28 @@
     console.log(counter2());
     console.log(counter2());
     console.log(counter2());
+
+    /**
+     * 함수를 리턴값으로 반환하는 함수 (3)
+     */
+    const makeCounterPredicate = (predicate) => {
+        let num = 0;
+        return () => {
+            num = predicate(num);
+            return num;
+        };
+    };
+
+    const increaser = makeCounterPredicate(n => ++n);
+    const decreaser = makeCounterPredicate(n => --n);
+
+    console.log(increaser());
+    console.log(increaser());
+    console.log(increaser());
+    console.log(decreaser());
+    console.log(decreaser());
+    console.log(decreaser());
+
 </script>
 </body>
 </html>
