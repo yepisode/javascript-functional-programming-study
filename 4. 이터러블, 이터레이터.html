@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - 이터러블 / 이터레이터</title>
+</head>
+<body>
+<script>
+    /**
+     * Array for ... of 문
+     */
+    const list = [1, 2, 3];
+    for (const a of list) {
+        console.log(a);
+    }
+
+    /**
+     * Set for ... of 문
+     */
+    const set = new Set([1, 2, 3]);
+    for (const a of set) {
+        console.log(a);
+    }
+
+    /**
+     * Map for ... of 문
+     */
+    const map = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    for (const a of map) {
+        console.log(a);
+    }
+
+    /**
+     * Array for ... of 문
+     */
+    const list1_1 = [1, 2, 3];
+    console.log(list[Symbol.iterator]);
+    for (const a of list) {
+        console.log(a);
+    }
+
+    // > ƒ values() { [native code] }
+
+    list[Symbol.iterator] = null;
+    for (const a of list) {
+        console.log(a);
+    }
+
+    //> Uncaught TypeError: list is not iterable at ...
+
+    /**
+     * Iterable Protocol
+     */
+    const list2 = [1, 2, 3];
+    const iter = list2[Symbol.iterator]();
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+    // > {value: 1, done: false}
+    console.log(iter.next());
+    console.log(iter.next());
+
+    // > {value: undefined, done: true}
+
+    /**
+     * Iterator Example
+     */
+    const list3 = [1, 2, 3];
+    const iter3 = list3[Symbol.iterator]();
+    console.log(iter3.next());
+    for (const a of iter3) {
+        console.log(a);
+    }
+
+    // > {value: 1, done: false}
+    // > 2
+    // > 3
+
+    /**
+     * Iterator Map Example
+     */
+    const map4 = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    const iter4 = map4[Symbol.iterator]();
+    console.log(iter4.next());
+    console.log(iter4.next());
+    console.log(iter4.next());
+    console.log(iter4.next());
+
+    // > {value: Array(2), done: false}
+    // > {value: Array(2), done: false}
+    // > {value: Array(2), done: false}
+    // > {value: undefined, done: true}
+
+    /**
+     * Iterator Map Example (2)
+     */
+    const map5 = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    const iter5 = map5[Symbol.iterator]();
+    console.log(iter5.next());
+    for (const a of iter5) {
+        console.log(a);
+    }
+
+    // > {value: Array(2), done: false}
+    // > (2) ["b", 2]
+    // > (2) ["c", 3]
+
+    /**
+     * Iterator Map Keys Example
+     */
+    const map6 = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    const iter6 = map6.keys();
+    console.log(iter6.next());
+    console.log(iter6.next());
+    console.log(iter6.next());
+    console.log(iter6.next());
+
+    // > {value: "a", done: false}
+    // > {value: "b", done: false}
+    // > {value: "c", done: false}
+    // > {value: undefined, done: true}
+
+    /**
+     * Iterator Map Keys Example (2)
+     */
+    const map7 = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    const iter7 = map7.keys();
+    for(const a of iter7) {
+        console.log(a);
+    }
+
+    // > a
+    // > b
+    // > c
+
+    /**
+     * Iterator Map Keys Iterator in Iterator Example
+     */
+    const map8 = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    const iter8 = map8.keys();
+    const keysIter8 = iter8[Symbol.iterator]();
+    console.log(keysIter8.next());
+    console.log(keysIter8.next());
+    console.log(keysIter8.next());
+    console.log(keysIter8.next());
+
+    // > {value: "a", done: false}
+    // > {value: "b", done: false}
+    // > {value: "c", done: false}
+    // > {value: undefined, done: true}
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
