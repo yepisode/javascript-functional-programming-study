@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트, 사용자 정의 이터러블, 그리고 이터러블/이터레이터 프로토콜 정의</title>
+</head>
+<body>
+<script>
+    /**
+     * 사용자 이터러블 정의
+     */
+    const iterable = {
+        [Symbol.iterator]() {
+            let i = 1;
+            return {
+                next() {
+                    return i > 3 ? {done: true} : {value: i++, done: false};
+                },
+                [Symbol.iterator]() {
+                    return this;
+                }
+            };
+        }
+    };
+    let iterator = iterable[Symbol.iterator]();
+    iterator.next();
+    for (const a of iterator) {
+        console.log(a);
+    }
+
+    /**
+     * dom NodeList 이터러블 정의
+     */
+    const list = document.querySelectorAll('*');
+    for (const a of list) {
+        console.log(a);
+    }
+
+    const queryAllIterator = list[Symbol.iterator]();
+    queryAllIterator.next();
+    queryAllIterator.next();
+    for (const a of queryAllIterator) {
+        console.log(a);
+    }
+</script>
+</body>
+</html>
