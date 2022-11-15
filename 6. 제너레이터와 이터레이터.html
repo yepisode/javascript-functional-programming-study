@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - 제너레이터와 이터레이터</title>
+</head>
+<body>
+<script>
+    /**
+     * 제너레이터
+     */
+    function* gen() {
+        yield 1;
+        if (false) yield 2;
+        yield 3;
+    }
+    const g = gen();
+    console.log(g.next());
+    console.log(g.next());
+    console.log(g.next());
+    console.log(g.next());
+    console.clear();
+
+    /**
+     * 제너레이터
+     */
+    function* g2(i = 0) {
+        yield 1;
+        yield 2;
+        yield 3;
+        return 10;
+    }
+    const iter = g2();
+    console.log(iter[Symbol.iterator]);
+    console.log(iter[Symbol.iterator]() === iter);
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+
+    for (const a of g2()) {
+        console.log(a);
+    }
+
+    /**
+     * 제너레이터 홀수 생성 (1)
+     */
+    function* adds1(l) {
+        for (const a of infinity(1)) {
+            if (a % 2) yield a;
+            if (a == l) return;
+        }
+    }
+
+    let iter2 = adds1(10);
+    console.log(iter2.next());
+    console.log(iter2.next());
+    console.log(iter2.next());
+    console.log(iter2.next());
+    console.log(iter2.next());
+    console.log(iter2.next());
+
+    /**
+     * 제너레이터 홀수 생성 (2)
+     */
+    function* adds2() {
+        let a = 1;
+        while (true) {
+            yield a;
+            a += 2;
+        }
+    }
+
+    const iter3 = adds2();
+    console.log(iter3.next());
+    console.log(iter3.next());
+    console.log(iter3.next());
+    console.log(iter3.next());
+    console.log(iter3.next());
+    console.log(iter3.next());
+    console.log(iter3.next());
+
+    /**
+     * 제너레이터 홀수 생성 (3)
+     */
+    function* infinity(i = 0) {
+        while (true) yield i++;
+    }
+
+    let iter4 = infinity(0);
+    console.log(iter4.next());
+    console.log(iter4.next());
+    console.log(iter4.next());
+    console.log(iter4.next());
+    console.log(iter4.next());
+
+    /**
+     * 제너레이터 limit
+     */
+    function* limit(l, iter) {
+        for (const a of iter) {
+            yield a;
+            if (a == l) return;
+        }
+    }
+
+    let iter5 = limit(5, infinity(0));
+    console.log(iter5.next());
+    console.log(iter5.next());
+    console.log(iter5.next());
+    console.log(iter5.next());
+    console.log(iter5.next());
+    console.log(iter5.next());
+
+    /**
+     * 제너레이터 odds
+     */
+    function* odds(l) {
+        for (const a of limit(l, infinity(0))) {
+            if (a % 2) yield a;
+        }
+    }
+
+    let iter6 = odds(10);
+    console.log(iter6.next());
+    console.log(iter6.next());
+    console.log(iter6.next());
+    console.log(iter6.next());
+
+    for (const a of odds(50)) {
+        console.log(a);
+    }
+
+
+</script>
+</body>
+</html>
