@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - map</title>
+</head>
+<body>
+<script>
+    /**
+     * map
+     */
+    const list = [
+        {title: '제목1', content: '내용1'},
+        {title: '제목2', content: '내용2'},
+        {title: '제목3', content: '내용3'}
+    ];
+
+    for(const a of list) {
+        console.log(a.title);
+    }
+
+    for(const a of list) {
+        console.log(a.content);
+    }
+
+    const map = (f, iter) => {
+        let res = [];
+        for (const a of iter) {
+            res.push(f(a));
+        }
+        return res;
+    };
+
+    console.log(map(a => a.title, list));
+    console.log(map(a => a.content, list));
+
+
+</script>
+</body>
+</html>
