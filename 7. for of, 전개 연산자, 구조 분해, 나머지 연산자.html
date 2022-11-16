@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - for of, 전개연산자, 구조분해, 나머지 연산자</title>
+</head>
+<body>
+<script>
+    /**
+     * limit
+     */
+    const limit = (count, iter) => {
+        let res = [];
+        for (const a of iter) {
+            res.push(a);
+            if (res.length === count) return res;
+        }
+        return res;
+    };
+
+    /**
+     * infinity
+     */
+    const infinity = function *(start = 0) {
+        while (true) yield start++;
+    };
+
+    /**
+     * 제너레이터 odds
+     */
+    function* odds(l) {
+        for (const a of limit(l, infinity(0))) {
+            if (a % 2) yield a;
+        }
+    }
+    /**
+     * for ... of
+     */
+    console.log("for of");
+    for (const a of odds(10)) {
+        console.log(a);
+    }
+    /**
+     * 전개 연산자
+     */
+    console.log("전개 연사자");
+    console.log(...odds(10));
+    console.log([...odds(10), ...odds(20)]);
+
+    /**
+     * 구조 분해
+     */
+    console.log("구조 분해");
+    const [head, ...tail] = odds(5);
+    console.log(head);
+    console.log(tail);
+
+    /**
+     * 나머지 연산자
+     */
+    console.log("나머지 연산자");
+    const [b, ...bs] = odds(10);
+    console.log(b);
+    console.log(bs);
+
+    /**
+     * 나머지 연산자
+     */
+    console.log("나머지 연산자");
+    const [c, d, ...cs] = odds(10);
+    console.log(c);
+    console.log(d);
+    console.log(cs);
+</script>
+</body>
+</html>
