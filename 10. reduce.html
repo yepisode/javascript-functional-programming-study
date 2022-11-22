@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - reduce</title>
+</head>
+<body>
+<script>
+/** reduce */
+const numbers = [1, 2, 3, 4, 5];
+
+/** reduce 명령형 코드 */
+console.log("reduce 명령형 코드");
+let total = 0;
+for (const a of numbers) {
+    total += a;
+}
+console.log(total);
+
+/** reduce 함수형 코드 */
+console.log("reduce 함수형 코드");
+const add = (a, b) => a + b;
+const reduce = (f, acc, iter) => {
+    if (!iter) {
+        iter = acc[Symbol.iterator]();
+        acc = iter.next().value;
+    }
+    for (const a of iter) {
+        acc = f(acc, a);
+    }
+    return acc;
+};
+
+console.log(reduce(add, 0, numbers));
+
+// 예상 결과
+// console.log(reduce(add, 0, numbers));
+// > 15
+
+// 예상 동작
+// console.log(add(add(add(add(add(0, 1), 2), 3), 4), 5));
+// > 15
+
+// 1. acc 값을 설정하지 않을 경우
+console.log(reduce(add, [1, 2, 3, 4, 5]));
+// > 15
+// 2. 첫번째 값이 acc로 설정되고, 두번째 값부터 순회가 시작된다.
+console.log(reduce(add, 1, [2, 3, 4, 5]));
+// > 15
+
+
+
+</script>
+</body>
+</html>
