@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - go</title>
+</head>
+<body>
+<script>
+// reduce, map, filter, add
+function reduce(f, acc, iter) {
+    if (!iter) {
+        iter = acc[Symbol.iterator]();
+        acc = iter.next().value;
+    }
+    for (const a of iter) {
+        acc = f(acc, a);
+    }
+    return acc;
+}
+function map(f, iter) {
+    let res = [];
+    for (const a of iter) {
+        res.push(f(a));
+    }
+    return res;
+}
+function filter(f, iter) {
+    let res = [];
+    for (const a of iter) {
+        if (f(a)) res.push(a);
+    }
+    return res;
+}
+function add(a, b) {
+    return a + b;
+}
+
+const products = [
+    {name: '반팔티', price: 15000},
+    {name: '긴팔티', price: 20000},
+    {name: '핸드폰케이스', price: 15000},
+    {name: '후드티', price: 30000},
+    {name: '바지', price: 25000},
+];
+
+// example (1)
+console.log(
+    reduce(add,
+        map(p => p.price,
+            filter(p => p.price < 20000, products)
+        )
+    )
+);
+// > 30000
+/**
+ * go
+ */
+const go = (...args) => reduce((a, f) => f(a), args);
+
+// example (2)
+go(
+    0,
+    a => a + 1,
+    a => a * 2,
+    a => a - 2,
+    console.log
+);
+// > 0
+</script>
+</body>
+</html>
