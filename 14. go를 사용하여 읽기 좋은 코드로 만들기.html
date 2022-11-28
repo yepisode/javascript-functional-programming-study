@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - go를 사용하여 읽기 좋은 코드로 만들기</title>
+</head>
+<body>
+<script>
+    // 제품 리스트
+    const products = [
+        {name: '반팔티', price: 15000, quantity: 1},
+        {name: '긴팔티', price: 20000, quantity: 2},
+        {name: '핸드폰케이스', price: 15000, quantity: 3},
+        {name: '후드티', price: 30000, quantity: 4},
+        {name: '바지', price: 25000, quantity: 5}
+    ];
+
+    // reduce, map, filter, add
+    function reduce(f, acc, iter) {
+        if (!iter) {
+            iter = acc[Symbol.iterator]();
+            acc = iter.next().value;
+        }
+        for (const a of iter) {
+            acc = f(acc, a);
+        }
+        return acc;
+    }
+    function map(f, iter) {
+        let res = [];
+        for (const a of iter) {
+            res.push(f(a));
+        }
+        return res;
+    }
+    function filter(f, iter) {
+        let res = [];
+        for (const a of iter) {
+            if (f(a)) res.push(a);
+        }
+        return res;
+    }
+    function add(a, b) {
+        return a + b;
+    }
+
+    // example (1)
+    console.log(
+        reduce(add,
+            map(p => p.price,
+                filter(p => p.price < 20000, products)
+            )
+        )
+    );
+
+    // go
+    const go = (...args) => reduce((a, f) => f(a), args);
+
+    // example (2)
+    go(
+        products,
+        products => filter(p => p.price < 20000, products),
+        products => map(p => p.price, products),
+        prices => reduce(add, prices),
+        console.log
+    );
+</script>
+</body>
+</html>
