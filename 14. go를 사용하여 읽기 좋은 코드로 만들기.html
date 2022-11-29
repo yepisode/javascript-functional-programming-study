@@ -6,64 +6,64 @@
 </head>
 <body>
 <script>
-    // 제품 리스트
-    const products = [
-        {name: '반팔티', price: 15000, quantity: 1},
-        {name: '긴팔티', price: 20000, quantity: 2},
-        {name: '핸드폰케이스', price: 15000, quantity: 3},
-        {name: '후드티', price: 30000, quantity: 4},
-        {name: '바지', price: 25000, quantity: 5}
-    ];
+// 제품 리스트
+const products = [
+    {name: '반팔티', price: 15000, quantity: 1},
+    {name: '긴팔티', price: 20000, quantity: 2},
+    {name: '핸드폰케이스', price: 15000, quantity: 3},
+    {name: '후드티', price: 30000, quantity: 4},
+    {name: '바지', price: 25000, quantity: 5}
+];
 
-    // reduce, map, filter, add
-    function reduce(f, acc, iter) {
-        if (!iter) {
-            iter = acc[Symbol.iterator]();
-            acc = iter.next().value;
-        }
-        for (const a of iter) {
-            acc = f(acc, a);
-        }
-        return acc;
+// reduce, map, filter, add
+function reduce(f, acc, iter) {
+    if (!iter) {
+        iter = acc[Symbol.iterator]();
+        acc = iter.next().value;
     }
-    function map(f, iter) {
-        let res = [];
-        for (const a of iter) {
-            res.push(f(a));
-        }
-        return res;
+    for (const a of iter) {
+        acc = f(acc, a);
     }
-    function filter(f, iter) {
-        let res = [];
-        for (const a of iter) {
-            if (f(a)) res.push(a);
-        }
-        return res;
+    return acc;
+}
+function map(f, iter) {
+    let res = [];
+    for (const a of iter) {
+        res.push(f(a));
     }
-    function add(a, b) {
-        return a + b;
+    return res;
+}
+function filter(f, iter) {
+    let res = [];
+    for (const a of iter) {
+        if (f(a)) res.push(a);
     }
+    return res;
+}
+function add(a, b) {
+    return a + b;
+}
 
-    // example (1)
-    console.log(
-        reduce(add,
-            map(p => p.price,
-                filter(p => p.price < 20000, products)
-            )
+// example (1)
+console.log(
+    reduce(add,
+        map(p => p.price,
+            filter(p => p.price < 20000, products)
         )
-    );
+    )
+);
 
-    // go
-    const go = (...args) => reduce((a, f) => f(a), args);
+// go
+const go = (...args) => reduce((a, f) => f(a), args);
 
-    // example (2)
-    go(
-        products,
-        products => filter(p => p.price < 20000, products),
-        products => map(p => p.price, products),
-        prices => reduce(add, prices),
-        console.log
-    );
+// example (2)
+go(
+    products,
+    products => filter(p => p.price < 20000, products),
+    products => map(p => p.price, products),
+    prices => reduce(add, prices),
+    console.log
+);
 </script>
 </body>
 </html>

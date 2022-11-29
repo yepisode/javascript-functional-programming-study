@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - curry 로 더 읽기 좋은 코드 만들기</title>
+</head>
+<body>
+<script>
+/**
+ * curry
+ */
+const products = [
+    {name: '반팔티', price: 15000, quantity: 1},
+    {name: '긴팔티', price: 20000, quantity: 2},
+    {name: '핸드폰케이스', price: 15000, quantity: 3},
+    {name: '후드티', price: 30000, quantity: 4},
+    {name: '바지', price: 25000, quantity: 5}
+];
+const filter = (f, iter) => {
+    let res = [];
+    for (const a of iter) {
+        if (f(a)) res.push(a);
+    }
+    return res;
+};
+const map = (f, iter) => {
+    let res = [];
+    for (const a of iter) {
+        res.push(f(a));
+    }
+    return res;
+};
+const go = (...args) => reduce((a, f) => f(a), args);
+const reduce = (f, acc, iter) => {
+    if (!iter) {
+        iter = acc[Symbol.iterator]();
+        acc = iter.next().value;
+    }
+    for (const a of iter) {
+        acc = f(acc, a);
+    }
+    return acc;
+};
+const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
+const filter2 = curry((f, iter) => {
+    let res = [];
+    for (const a of iter) {
+        if (f(a)) res.push(a);
+    }
+    return res;
+});
+const map2 = curry((f, iter) => {
+    let res = [];
+    for (const a of iter) {
+        res.push(f(a));
+    }
+    return res;
+});
+const reduce2 = curry((f, acc, iter) => {
+    if (!iter) {
+        iter = acc[Symbol.iterator]();
+        acc = iter.next().value;
+    }
+    for (const a of iter) {
+        acc = f(acc, a);
+    }
+    return acc;
+});
+const add = (a, b) => a + b;
+const add2 = curry(add);
+
+// (1)
+console.log(add2(10, 5));
+// > 15
+// (2)
+console.log(add2(10)(5));
+// > 15
+go(
+    products,
+    filter2(p => p.price < 20000),
+    map2(p => p.price),
+    reduce2(add2),
+    console.log
+);
+// > 30000
+</script>
+</body>
+</html>
