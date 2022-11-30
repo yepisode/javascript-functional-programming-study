@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - 함수 조합으로 함수 만들기</title>
+</head>
+<body>
+<script>
+    /**
+     * 함수 조합으로 함수 만들기
+     */
+    const list = [
+        {title: '제목1', content: '내용1'},
+        {title: '제목2', content: '내용2'},
+        {title: '제목3', content: '내용3'}
+    ];
+    const filter = (f, iter) => {
+        let res = [];
+        for (const a of iter) {
+            if (f(a)) res.push(a);
+        }
+        return res;
+    };
+    const map = (f, iter) => {
+        let res = [];
+        for (const a of iter) {
+            res.push(f(a));
+        }
+        return res;
+    };
+    const reduce = (f, acc, iter) => {
+        if (!iter) {
+            iter = acc[Symbol.iterator]();
+            acc = iter.next().value;
+        }
+        for (const a of iter) {
+            acc = f(acc, a);
+        }
+        return acc;
+    };
+    const go = (...args) => reduce((a, f) => f(a), args);
+    const pipe = (f, ...fs) => (...as) => go(f(...as), ...fs);
+    const add = (a, b) => a + b;
+    const add10 = a => a + 10;
+    const f = pipe(
+        (a, b) => a + b,
+        a => a + 10,
+        a => a + 100
+    );
+    console.log(f(0, 1));
+    // > 111
+</script>
+</body>
+</html>
