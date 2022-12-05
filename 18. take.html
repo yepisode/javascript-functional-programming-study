@@ -10,7 +10,7 @@
  * curry
  */
 const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
-    /**
+/**
  * range
  */
 const range = (l) => {
@@ -63,6 +63,7 @@ const go = (...args) => reduce((a, f) => f(a), args);
 console.log(range(100));
 console.log(take(5, range(10000)));
 console.log(take(5, L.range(10000)));
+console.log(take(5, range(Infinity)));
 console.log(take(5, L.range(Infinity)));
 
 /**
