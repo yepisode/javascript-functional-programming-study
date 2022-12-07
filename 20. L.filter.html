@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수형 자바스크립트 - L.filter</title>
+</head>
+<body>
+<script>
+    /**
+     * L.filter
+     */
+    const L = {};
+    L.filter = function *(f, iter) {
+        for (const a of iter) {
+            if (f(a)) yield a;
+        }
+    };
+
+    console.log("L.filter");
+    const it = L.filter(a => a % 2, [1, 2, 3, 4]);
+    console.log(it.next());
+    // > {value: 1, done: false}
+    console.log(it.next());
+    // > {value: 3, done: false}
+    console.log(it.next());
+    // > {value: undefined, done: true}
+
+
+</script>
+</body>
+</html>
